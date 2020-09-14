@@ -1,0 +1,85 @@
+Please enter your code review in this file as plain text
+and make sure to include it when you commit your project.
+
+General Comments:
+1) No testing or test classes written. Student has instead used a main method. 
+
+2)System.out.println  command used everywhere. Can never be accepted for deploying on production side.
+
+3)Has tried to replace testing by using print commands and running methods from main method. 
+
+4)The API looks very complex. It could easily have been made simpler.
+Also the Java docs lack basic information of the classes and the methods. Very poorly written java docs.
+
+Specific Comments:
+
+Address.java:
+Not mentioned if the class is thread safe or not. Class is not final and hence can be inherited. Address class looks thread safe as there are no setter methods and the member variables are private.
+
+He has not mentioned which member variables are optional and which are compulsory. Could have used builder static class in case of optional parameter.
+
+line 26: the default constructor is useless as there are no setter methods and member variables are private.
+Not sure what he is trying to achieve here.
+
+line 37: instead of using getfulladdress should have overriden ToString function.
+
+
+
+AddressBookController.java:
+Should have done testing instead of this.
+
+
+Name.java:
+Has setter methods and the class is not final. The class is not immutable and hence not thread safe
+
+Instead of getfullname could have overritten toString()
+
+line 13: useless constructor. Instead of making strings empty could have kept the strings as null and then test for null instead of empty.
+
+Middle name should be kept optional. Builder static class not used.
+
+
+Phone.java:
+Has used enums, which is good.
+
+Class is not final and has setter methods. It is not thread safe.
+
+line 70 & line 86: instead of creating an instance of HashMap every time the function is called, he could have used a static variable.
+
+Can write better implementations of getLabelFromStr & getStrFromLabel. Reference: http://stackoverflow.com/questions/309333/enum-string-name-from-value
+
+
+Contact.java:
+line 16: Very complex API. This constructor dictates that for each contact object we will have to create a name, address and Vector<Phone> object. Could have made a more simpler API.
+
+line 16: No setter methods present and variables are private hence this constructor is useless as the values for the member vairables cannot be set after calling an object with this constructor.
+
+Instead of directly returning Name Address and Vector<phone> objects he should have returned the clones of these objects. This makes the class highly mutable.
+
+
+AddressBookModule.java:
+Class is not made final. Vector<Contact> contacs could have been final.
+
+line 22: directly returns the object reference. Should return just the clone of the object.
+
+line 32: variable name starts with capital. Should follow camelcasing.
+
+Line 31: no code to handle FileNotFound exception. should have written throws FileNotFound Exception
+
+line 56: He is adding the contacts in a lexicographical manner but is not using that design while searching. He could have searched using binary search and made the search fuction a log(n) order function. There is no logic to add the elements lexicographically if he is not going to use that order in any manner.
+
+line 57 & 77: Preferable to use For: each loop here.
+
+line 79: Can use contacts.contains(Object) instead of using a  for loop iterator and contacts.remove(Object) to make the code more readable.
+
+line 93: instead of writing the same code for different methods like getContactByPhone,getContactByName,getContactByAddress etc.,he could have written one generic method which would covert the whole contacts into one string separated by commas using a StringBuffer and then searched for the input string in that method.
+
+
+AddressBookView.java:
+There was no need to implement this class. This was not asked for.
+
+
+AddressBookXMLFile.java:
+Should use For:each loop where modification is not required. Overall he could have used JSON Objects and Arrays. They are easier to implement and require very less line of code. Also  they are more readable. 
+Reference: http://stackoverflow.com/questions/5650171/parsing-json-array-within-json-object
+

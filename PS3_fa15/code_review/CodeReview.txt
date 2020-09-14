@@ -1,0 +1,23 @@
+Please enter your code review in this file as plain text
+and make sure to include it when you commit your project.
+
+StopWAtchImplementation.java
+1) There is no final in String ID. Id should be final
+2) List of laptimes should be final
+3)Object lock should be final
+4)list of laptimes should be Collections.Synchronized(List). This is for getting a synchronized list.
+5)The constructor should be default
+6)The List of laptimes should be initialized in the constructor
+7)startTime=0l in reset. She has not done that.
+8) instead of date.getTime() we should use System.NanoTime() and then convert it into milliseconds. This way the time is more precise.
+9) in getLatimes() she has directly returned the reference to lapTimes. She should return a clone.
+10) toString is poorly written, should have lock and use getters to get the values.
+11) no getters defined!
+12) variables stopwatchstatus and starttime are not camel cased!
+
+StopwatchFactory.java:
+1)Stopwatch list is not final. Also should have used Collections.synchronized(list). 
+Better and easy method would have been to use a hashMap!
+2)IStopwatch List-stopwatchlist should be final!
+3)getStopWatch function should be final!
+4)in getstopwatches she is returning the reference directly. She should return a clone!
