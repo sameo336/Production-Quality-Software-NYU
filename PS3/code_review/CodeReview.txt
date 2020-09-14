@@ -1,0 +1,59 @@
+StopWatchFactory Class:
+
+Line 7: Incorrect import ordering, edu.nyu files should be imported before java ones.
+
+Line 16: Hashtable is thread-safe and slow. Synchronizing on it is an overkill. Could have used HashMap.
+
+Line 31: Id should be trimmed before checking if its empty.
+
+Line 34: Lines 35-39 need to be Synchronized. The lock can be released after Line 39. Returning the object doesn't require the lock.
+
+Line 35: Id should be trimmed before converting to lowercase.
+
+Line 35: The string (id.toLowerCase()) can be stored in a temporary value as it is being used multiple times in lines 35, 38 and 39.
+
+Line 38, 39: The saved ID in the newStopWatch and stopWatches should be allowed to have uppercase characters.
+
+Line 56: Missing toString for StopWatchFactory class, can be helpful in the future, while debugging.
+
+StopWatchImplementation Class:
+
+Line 8: Incorrect import ordering, edu.nyu files should be imported before java ones.
+
+Line 18: Should not be a public class. All methods can be accessed by a reference of the public interface Stopwatch. StopWatchImplementation class can be 
+package-access.
+
+Line 20: Enum is not required. Boolean isStopWatchRunning would suffice.
+
+Line 26: Unnecessary to keep track of lapNumber. Can be obtained from the size of the ConcurrentHashMap (if required).
+
+Line 30: ConcurrentHashMap is thread-safe and slow. Synchronizing on it is an overkill. Can use ArrayList instead.
+
+Line 32-36: No java doc required for constructors.
+
+Line 37: Constructor should not be public. Else, it would be possible to create multiple instances of StopWatchImplementation having the same ID.
+Constructor can be package-private instead.
+
+Line 57-65: Incorrect implementation of special case (start->stop->start). Time interval in which stopwatch has been stopped should not be counted. Previous lap 
+time should be added when the stopwatch is started again after being stopped.
+
+Line 57-65: Special cases like start->lap->stop->start and/or start->lap->stop->start->lap->stop are not being handled.
+
+Also, getLapTimes() will give incorrect result for above special cases.
+
+Line 76: Lines 76-85 is critical section and should be in a synchronized(lock) block as it is currently possible that another thread interrupts the first thread, 
+after first thread has checked the current state of the stopwatch in line 76, and changes the state to stopped (by calling reset). The lap method will 
+incorrectly run in state stopped after reset method terminates.
+
+Line 90: Similarly lines 90-97 should also be in a synchronized(lock) block, instead of the current implementation. The current state of the stopwatch should be 
+checked and updated within the synchronized thread-safe block only.
+
+Line 120: Lines 120-127 can be within the synchronized block. Declaring a reference and returning of the StringBuilder object can be outside the synchronized 
+block.
+
+Line 120: StringBuilder res: could have a better variable name, for instance stopWatchStringBuilder.
+
+
+
+
+

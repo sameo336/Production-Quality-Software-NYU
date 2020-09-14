@@ -1,0 +1,90 @@
+AddressBook & AddressBookEntry Classes:
+
+- StringBuffer (which is synchronized and slow) is used multiple times, instead of StringBuilder (which is unsynchronized and faster).
+
+- Poor variable names, at times.
+
+- Overriden implementations of toString, equals and hashCode are missing from both classes.
+
+- Poor method names: serialize and deserialize are methods with the same names in both AddressBook and AddressBookEntry classes, can cause confusion.
+
+- The commons-io jar (for FileUtils) is absent from project.
+
+- Gson-2.6.2 jar unnecessarily added to project.
+
+- No need of Java Doc for constructors.
+
+- Test cases can also be written to verify the logic/working.
+
+AddressBook Class:
+
+Line 11: Can make entryList final, if there isn't any entryList setter.
+
+Line 20-26: Poor Java Doc, could be more informative - for instance, what are the valid field values that the method accepts.
+
+Line 27,28: Poor variable name: res, value.
+
+Line 28: No check of AddressBookField field for null.
+
+Line 28, 90, 102: Check/validation of the String for null/empty should be done before proceeding.
+
+Line 32, 37, 42, 47, 52: Should call trim() and toLowerCase() on strings before comparison.
+
+Line 56: Should handle default (switch) case. Either log error message in Logger and handle exception and recover gracefully without user involvment or throw exception.
+
+Line 31-57: Code is not adhering to Style Guide - Even a single line of loop statement etc. should be within braces as per Style Guide.
+
+Line 66, 76: Should mention in Java Doc that a null AddressBookEntry object will not be accepted (since it will throw a NullPointerException in search method)
+
+Line 70, 80: Should check if AddressBookEntry object is not-null before proceeding.
+
+Line 84-88, 95-100: Constraints about format of input file and the type of encoding can be added for informational purposes in the Java Doc of writeObject and readObject methods.
+
+Line 89: Void return type of writeObject method, can instead return a boolean to indicate success of writing to a file.
+
+Line 90: Should check for null/empty/validity of filePath String before calling serialize.
+
+Line 111, 126: No use of making serialize and deserialize helper methods public, can be private.
+
+Line 112: StringBuffer sb : can have a better variable name.
+
+Line 112: StringBuilder can be used instead of StringBuffer, if we don't care about thread safety since StringBuffer is synchronized and slow.
+
+Line 115: Used '/' as delimiter. '/' may be part of the user input String as well (when creating an AddressBookEntry object). Should handle the case: '/' in the user input should be replaced with something else in order to avoid confusion while parsing the string.
+
+Line 124: Poor Java Doc for description of return value of deserialize method.
+
+Line 128, 130, 131: Poor variable names 'i, 'slash' and 'size'.
+
+- In order to write to a file and read from it, JSON Parser could be used, which is less complex and more readable with lesser loopholes (like deciding on a delimiter).
+( Reference: http://stackoverflow.com/questions/5650171/parsing-json-array-within-json-object )
+
+AddressBookEntry Class:
+
+Line 8: AddressBookField Enum should be public (and defined in another file), not default package-access as users of library need to call search method using this enum as a parameter.
+
+Line 8: AddressBookField Enum : poor variable name. Should be AddressBookEntryFields instead.
+
+Line 13-17: Members are made non-final along with public setters, making the class mutable and thread-unsafe. Better approach would be to use builder pattern (specifying mandatory and optional fields) and make the AddressBookEntry class immutable and thus, thread safe.
+
+Line 22: This default constructor is unnecessary. Could have initialized the data members to empty strings while declaring and used the default Java constructor instead of defining this one.
+
+Line 32-55: Could have used the ternary operator to improve readability. Could have also initialized the data members as empty Strings while declaring, and modified in the constructor only if input values weren't null.
+
+Line 65, 91: Method should have default-access, not protected (since AddressBookEntry cannot be inherited as it is final).
+
+Line 66: StringBuffer sb : can have a better variable name.
+
+Line 66: StringBuilder can be used instead of StringBuffer, if we don't care about thread safety since StringBuffer is synchronized and slow.
+
+Line 72: String str: can have a better variable name.
+
+Line 77, 106: Should handle caught exception gracefully, either handle the exception and gracefully recover without user involvement or throw the exception from the library.
+
+Line 79: Used '/' as delimiter. '/' may be part of the user input String as well (when creating an AddressBookEntry object). Should handle the case: '/' in the user input should be replaced with something else in order to avoid confusion while parsing the string.
+
+Line 86: Should add " This method should never throw IllegalArgumentException or IllegalAccessException." to Java Docs of deserialize.
+
+Line 94: Unnecessary usage of for loop with index j for fields. Should instead use a foreach loop (and inside the foreach loop, i can be incrementd and its value checked if it is less than input.length()).
+
+Line 94, 95, 96: Poor variable names 'i','slash' and 'size'.
